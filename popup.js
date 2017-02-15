@@ -13,30 +13,34 @@ function getAllTabs(callback) {
 document.addEventListener('DOMContentLoaded', function() {
   getAllTabs(function(allTabs) {
     numberOfTabs = allTabs.length;
+    $("#container").append("<ul id='dropdown-menu'></ul>");
+    ul = $("#dropdown-menu");
 
     for (var i = 0; i < numberOfTabs; i++) {
-      var div = document.createElement('div');
-      var a = document.createElement('a');
-      var closeMe = document.createElement('span');
-      closeMe.className = "closeTab"
-      closeMe.innerHTML = '  x';
-      a.href = allTabs[i].url;
+      li = document.createElement('li');
+      li.id = allTabs[i].id;
+      li.className = 'content';
+
+      a = document.createElement('a');
       a.innerHTML = allTabs[i].title;
-      a.name = "tabsLink"
-      div.id = allTabs[i].id;
-      div.className = 'content'
+      a.className = 'tabsLink';
       a.addEventListener('click', openTheTab, false);
+
+      closeMe = document.createElement('span');
+      closeMe.className = "closeTab"
+      closeMe.innerHTML = 'x';
       closeMe.addEventListener('click', closeTheTab, false);
-      div.appendChild(a);
-      div.appendChild(closeMe);
-      document.getElementsByClassName('dropdown-menu')[0].appendChild(div);
+      
+      li.appendChild(closeMe);
+      li.appendChild(a);
+      ul.append(li);
     }
   });
 });
 
 
 function openTheTab(e){
-  if(e.target.tagName == 'A' && e.target.name == 'tabsLink'){
+  if(e.target.tagName == 'A' && e.target.className == 'tabsLink'){
     getTab(parseInt(e.target.parentNode.id), function(tab){
       if(tab){
         chrome.tabs.update(tab.id, {selected: true});
