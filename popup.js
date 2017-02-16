@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
       li.id = allTabs[i].id;
       li.className = 'content';
 
+      img = document.createElement('img');
+      img.src = allTabs[i].favIconUrl;
+      img.className = "tabIcon"
+
       a = document.createElement('a');
       a.innerHTML = allTabs[i].title;
       a.className = 'tabsLink';
@@ -28,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       closeMe = document.createElement('span');
       closeMe.className = "closeTab"
-      closeMe.innerHTML = 'x';
       closeMe.addEventListener('click', closeTheTab, false);
       
+      li.appendChild(img);
       li.appendChild(closeMe);
       li.appendChild(a);
       ul.append(li);
