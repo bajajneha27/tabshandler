@@ -2,14 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-function getAllTabs(callback) {
-  var queryInfo = {};
-
-  chrome.tabs.query(queryInfo, function(tabs) {
-    callback(tabs);
-  });
-}
-
 document.addEventListener('DOMContentLoaded', function() {
   getAllTabs(function(allTabs) {
     numberOfTabs = allTabs.length;
@@ -57,15 +49,42 @@ function closeTheTab(e){
   if(e.target.tagName == 'SPAN' && e.target.className == 'closeTab'){
     getTab(parseInt(e.target.parentNode.id), function(tab){
       if(tab){
-        chrome.tabs.remove(tab.id);
-        document.getElementById(tab.id).remove();
+        id = tab.id;
+        url = tab.url;
+        chrome.tabs.remove(id);
+        document.getElementById(id).innerHTML = "Closed. <a id='"+id+"' url='"+url+"'>Reopen</a>";
+        document.getElementById(id).addEventListener('click', reopenTheTab, false);
       }
     });
   }
 }
 
+function getClosedTab(callback){
+  chrome.sessions.getRecentlyClosed({maxResults: 1}, function(tabs) {
+    callback(tabs);
+  });
+};
+
+function reopenTheTab(e){
+  getClosedTab(function(tabs) {
+    sessionId = tabs[0].tab.sessionId;
+    chrome.sessions.restore(sessionId,function(restoredTab){
+      callback(restoredTab);
+    });
+  });
+};
+
+
 function getTab(tabId, callback){
   chrome.tabs.get(tabId, function(tab) {
     callback(tab);
+  });
+}
+
+function getAllTabs(callback) {
+  var queryInfo = {};
+
+  chrome.tabs.query(queryInfo, function(tabs) {
+    callback(tabs);
   });
 }
