@@ -44,23 +44,31 @@ body {
 	list-style: none;
 	margin: 0px;
 	padding: 5px;
-	display: flex;
-	flex-flow: row nowrap;
+	width: 100%;
+	overflow: hidden;
+	height: 20px;
+	position: relative;
 }
 
 #dropdown-menu li:hover {
 	background-color: #fff;
 }
 
-#dropdown-menu li a{
-	padding: 3px 16px 4px;
-	width: 470px;
-	max-width: 470px;
-	margin: 0px;
+#dropdown-menu li .parent{
+	position:relative;
 	overflow: hidden;
-	text-overflow: ellipsis;
+}
+
+#dropdown-menu li a{
+	padding: 0 5px;
+	margin: 0px;
 	white-space: nowrap;
-	line-height: 10px;
+	line-height: 20px;
+	width: auto;
+	float: left;
+	padding-left: 25px;
+	position: relative;
+	overflow: hidden;
 }
 
 .closeTab {
@@ -69,12 +77,14 @@ body {
 	cursor: pointer !important;
 	display:flex;
 	flex-flow: column;
-	order: 3;
 	justify-content: center;
 	width: 16px;
 	height: 15px;
 	background-color: #555;
 	border-radius: 50%;
+	position: absolute;
+	right: 10px;
+	z-index: 10;
 }
 
 .closeTab:hover{
@@ -82,7 +92,7 @@ body {
 }
 
 .closeTab::before{
-	content:"x";
+	content:"❌";
 	color:#fff;
 	margin: auto;
   font-size: 10px;
@@ -90,11 +100,12 @@ body {
 
 .tabsLink {
 	cursor: pointer !important;
-	order: 2;
 }
 
 .tabIcon {
 	width: 20px;
 	height: 20px;
-	order: 1;
+	background-color: #fff;
+	position: absolute;
+	left: 3px;
 }
