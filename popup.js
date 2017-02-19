@@ -25,13 +25,22 @@ document.addEventListener('DOMContentLoaded', function() {
       closeMe = document.createElement('span');
       closeMe.className = "closeTab"
       closeMe.addEventListener('click', closeTheTab, false);
-      
+
       li.appendChild(img);
       li.appendChild(closeMe);
-      li.appendChild(a);
+      $(li).append($('<span class="parent"/>').append(a));
       ul.append(li);
     }
   });
+
+  $('#container').on('mouseenter', 'a', function() {
+      var ulWidth = $(this).width();
+      var liWidth = $(this).parent().parent().width() - 60;
+      if(ulWidth > liWidth)$(this).parent().stop().animate({left: liWidth - ulWidth}, 1000, 'linear');
+  }).on('mouseleave', 'a', function () {
+      $(this).parent().stop().animate({left: 0}, 'medium', 'swing');
+  });
+
 });
 
 
